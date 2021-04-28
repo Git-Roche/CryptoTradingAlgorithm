@@ -22,6 +22,8 @@ class model:
         self.features = features
         self.target = target
 
+        self.df_prediction = None
+
         self.model_file = 'model.pkl'
 
     def try_model(self):
@@ -75,6 +77,18 @@ class model:
         x_test['pct_err'] = x_test.apply(axis = 1, func = pct_err, a = 'prediction', b='target')
 
         print(x_test.groupby('symbol')['pct_err'].mean())
+
+        self.df.reset_index(inplace=True)
+        self.df_prediction = self.df[self.df['datetime'] == self.df['datetime'].max()]
+        
+        x_live = self.df_prediction[self.features]
+        x_live = norm_x.transform(x_live)
+
+        self.df_prediction['prediction'] = m.predict(x_live)
+
+        self.df_prediction = self.df_prediction[['symbol', 'datetime', 'prediction']]
+
+
 
 
 

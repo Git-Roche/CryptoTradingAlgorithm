@@ -16,6 +16,8 @@ class dataprocessor():
         self.new_data = new_data
         self.data_file = 'processed data.pkl'
 
+        self.dl = raw_data_process.data_downloader()
+
     def get_data(self):
 
         if os.path.exists(self.data_file) and not self.new_data:
@@ -38,13 +40,15 @@ class dataprocessor():
                 data_dict['live'] = self.df_live
                 dump(data_dict, f)
 
-        
+    def get_recent_data(self):
+        pass
 
     def preprocess_data(self):
 
-            
-        raw_data_process.download_todays_data()
-        self.df = raw_data_process.concat_existing_data()
+        
+
+        self.dl.download_todays_data()
+        self.df = self.dl.concat_existing_data()
 
         print('preparing data')
 
