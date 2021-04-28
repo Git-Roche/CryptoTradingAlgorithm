@@ -21,21 +21,15 @@ def main():
     m = model_class.model(d.df, d.features, d.target)
     m.try_model()
 
-    a = trading_algorithm.trader(d.df_live)
-    a.get_account_info()
+    # d.get_recent_data()
 
+    a = trading_algorithm.trader(m.df_prediction)
+    a.get_account_info()
+    a.get_order_book()
+    a.get_acct_orders()
+    # a.get_acct_fills()
+    a.plan_orders()
 
 if __name__ == '__main__':
 
     main()
-
-    # response = file_helper.get_data(
-    #     data_prep.get_all_data,
-    #     'prepared data.pkl',
-    #     get_new = True
-    # )
-
-    # df_all_data, df_cb_cg_coins = response
-
-
-    # make_model.make_model(df_all_data, df_cb_cg_coins)
